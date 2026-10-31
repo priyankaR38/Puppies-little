@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { handler } from './api.js';
+import { handler } from '../netlify/functions/api.js';
 
 test('Netlify API function serves the demo puppy catalogue', async () => {
   const response = await handler({
