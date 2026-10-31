@@ -4,15 +4,18 @@ A responsive puppy-boutique website built with React, Redux Toolkit, Express RES
 
 ## Project structure
 
+- `index.html` — Vite's root HTML entry point; it mounts the React app from `src/main.jsx`
 - `src/App.jsx` — route configuration and app-wide effects
 - `src/pages/HomePage.jsx` — homepage composition and puppy data loading
-- `src/pages/home/` — homepage sections, image configuration, and `HomePage.css`
+- `src/pages/home/` — focused homepage sections and image configuration
 - `src/pages/HowItWorksPage.jsx` — how-it-works page
 - `src/components/layout/` — shared site header and footer
 - `src/components/puppies/PuppyCards.jsx` — reusable puppy cards for the homepage
 - `src/Puppies.jsx` — searchable puppy catalogue, photo-gallery profiles, and enquiry forms
 - `src/store.js` — Redux Toolkit async state for catalogue and enquiries
-- `src/styles.css` — responsive visual system and page styles
+- `src/styles/` — application styles, separated into the shared site stylesheet and page-specific styles
+- `src/styles/site.css` — shared theme, layout, catalogue, and puppy profile styles
+- `src/styles/pages/home.css` — homepage-specific styles
 - `server/index.js` — Express REST endpoints and request validation
 - `server/db.js` — MySQL data access, with seed-data demo mode for local setup
 - `server/schema.sql` — MySQL database, tables, and starter puppy records
@@ -49,6 +52,6 @@ For deployment, host the built frontend and Node API, configure `VITE_API_URL` a
 
 The original assignment prompt asked for a complete responsive clone of `https://puppy.instabizweb.com/` using React.js, Redux, Node.js, MySQL, Express, and REST APIs, plus deployment, a GitHub repository, and a Loom walkthrough. Implementation prompt used here: “Build a responsive puppy-boutique website inspired by the supplied reference. Use React and Redux Toolkit for the frontend, and Node.js, Express REST APIs, and MySQL for the backend. Include a home page, puppy catalogue with filters, puppy detail pages, enquiry form, journey/how-it-works content, and responsive styling. Keep the implementation original: do not copy the reference brand, text, or photos. Make it runnable locally, document setup, and validate the production build and API.”
 
-The puppy catalogue has URL-backed origin, collection, breed, and gender chips; puppy cards open data-backed profiles; the gone-home cards lead to a separate archive route. Page arrival, card entrance, image hover, filter-chip, and custom paw cursor/trail animations are implemented in `src/styles.css` and `src/App.jsx`. The cursor illustration is original (`public/paw-cursor.svg`) and is disabled on coarse pointers/reduced-motion environments.
+The puppy catalogue has URL-backed origin, collection, breed, and gender chips; puppy cards open data-backed profiles; the gone-home cards lead to a separate archive route. Page arrival, card entrance, image hover, filter-chip, and custom paw cursor/trail animations are implemented in `src/styles/site.css` and `src/App.jsx`. The cursor illustration is original (`public/paw-cursor.svg`) and is disabled on coarse pointers/reduced-motion environments.
 
 No hosting, GitHub, or Loom credentials were available in this workspace, so those external deliverables still need to be completed by the assignment owner.

@@ -10,7 +10,6 @@ import JourneySection from './home/JourneySection.jsx';
 import PromiseStrip from './home/PromiseStrip.jsx';
 import StoriesSection from './home/StoriesSection.jsx';
 import WaysToMeetSection from './home/WaysToMeetSection.jsx';
-import './home/HomePage.css';
 
 export default function HomePage() {
   const dispatch = useDispatch();
