@@ -48,17 +48,24 @@ The Shih Tzu boy profile is available at `/puppies/shitzu-male`; its enquiry sec
 
 For deployment, host the built frontend and Node API, configure `VITE_API_URL` at build time if they use different origins, provide MySQL credentials as environment variables, and set `CLIENT_ORIGIN` to the frontend origin. Configure the static host to fall back to `index.html` for SPA routes.
 
-### Deploy the frontend to Netlify
+### Deploy the frontend and API on Netlify
 
-The root `netlify.toml` configures Netlify to run `npm run build`, publish `dist/`, use Node.js 20, and serve client-side routes through Vite's `index.html`.
+The root `netlify.toml` configures Netlify to run `npm run build`, publish `dist/`, use Node.js 20, deploy the API function from `netlify/functions/`, route `/api/*` requests to it, and serve client-side routes through Vite's `index.html`.
 
-1. Push the project to a GitHub repository and import that repository in Netlify using **Add new site → Import an existing project**.
-2. Keep the detected build settings (`npm run build`, `dist`) or use the settings from `netlify.toml`.
-3. If the Express API is hosted separately, add `VITE_API_URL` under **Site configuration → Environment variables** with the public API origin (for example, `https://your-api.example.com`, without a trailing slash), then trigger a new deploy. The frontend build needs this value because Vite embeds it at build time.
-4. On the API host, set `CLIENT_ORIGIN` to the Netlify site origin (for example, `https://your-site.netlify.app`) and configure MySQL connection variables there. Netlify's static hosting does not run this Express server or provide a MySQL database.
-5. After deploy, test `/`, `/puppies`, a puppy detail URL, and `https://your-site.netlify.app/api` only if you separately configured a backend proxy. Confirm API requests in the browser's Network panel; the API health check is at `https://your-api.example.com/api/health`.
+1. Push the project to GitHub and import it in Netlify using **Add new site → Import an existing project**.
+2. Keep the build settings from `netlify.toml` (`npm run build`, publish directory `dist`).
+3. If using a remote MySQL database, set these variables in Netlify's **Site configuration → Environment variables**. Make sure they are available to Functions. Use the database provider's externally reachable hostname and credentials; a database on your own computer or a private-only network cannot be reached by Netlify Functions.
+   - `DB_HOST`
+   - `DB_PORT` (often `3306`)
+   - `DB_USER`
+   - `DB_PASSWORD`
+   - `DB_NAME`
+4. If you configure `CLIENT_ORIGIN`, set it to the Netlify site's origin (for example, `https://your-site.netlify.app`). Netlify variables used by Functions must be set in the Netlify UI and applied with a new deploy.
+5. Run `server/schema.sql` against the remote database once to create and seed the puppy and inquiry tables. Keep database secrets in Netlify's environment settings—never commit them to the repository.
+6. Clear `VITE_API_URL` from Netlify if you previously set it to a separate API host; this deployment serves its function at the same origin under `/api`.
+7. Deploy again after setting or changing variables, then verify `https://your-site.netlify.app/api/health` and `https://your-site.netlify.app/api/puppies` return JSON.
 
-If you have not deployed the API yet, the frontend will not be able to load puppy data or submit enquiries on Netlify. Deploy the Express API and database first, or configure a Netlify Functions-based backend separately.
+When database variables are absent, the Function uses demo puppy data so the catalogue can still display. Demo-mode enquiries are only held in memory and are not durable. For persistent enquiries, configure a remotely accessible MySQL database.
 
 ## Assignment recording notes
 
